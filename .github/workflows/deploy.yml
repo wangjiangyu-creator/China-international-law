@@ -28,7 +28,7 @@ jobs:
           set -euo pipefail
           if compgen -G ".codex/bootstrap-source.tgz.b64.*" > /dev/null; then
             mkdir -p /tmp/china-source
-            cat .codex/bootstrap-source.tgz.b64.* | base64 -d | tar -xzf - -C /tmp/china-source
+            cat .codex/bootstrap-source.tgz.b64.* | sed 's/PBVVmtMioDt/PBVVmtM9ioDt/' | base64 -d | tar -xzf - -C /tmp/china-source
             rsync -a --delete --exclude='.git' /tmp/china-source/ ./
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

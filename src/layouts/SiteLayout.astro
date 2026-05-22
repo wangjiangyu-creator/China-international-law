@@ -1,0 +1,57 @@
+---
+import "../styles/global.css";
+
+const {
+  title = "China, International Law, and International Order",
+  description = "A curated scholarly portal on China's approach to international law and the evolving international order.",
+  hero = false,
+} = Astro.props;
+
+const nav = [
+  ["Topics", "/topics/theory-order/"],
+  ["Archive", "/archive/"],
+  ["Timelines", "/timelines/"],
+  ["Literature", "/literature/"],
+  ["Methodology", "/methodology/"],
+  ["About", "/about/"],
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body class:list={[hero && "has-hero"]}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" aria-label="Site header">
+      <a class="brand" href="/">
+        <span class="brand-mark">CILO</span>
+        <span>
+          <strong>China, International Law, and International Order</strong>
+          <small>Curated by Professor Wang Jiangyu</small>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        {nav.map(([label, href]) => <a href={href}>{label}</a>)}
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div>
+        <strong>China, International Law, and International Order</strong>
+        <p>Official documents, international-law materials, state practice, reports, and scholarship for research and teaching.</p>
+      </div>
+      <div>
+        <a href="/methodology/">Methodology</a>
+        <a href="/archive/">Source archive</a>
+        <a href="/about/">About Professor Wang</a>
+      </div>
+    </footer>
+  </body>
+</html>

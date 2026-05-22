@@ -1,0 +1,28 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { loadSiteContent, topicLabels } from "../lib/content.mjs";
+
+const { timeline } = loadSiteContent();
+---
+
+<SiteLayout title="Timelines | China, International Law, and International Order">
+  <section class="page-intro">
+    <p class="eyebrow">Chronology</p>
+    <h1>Follow doctrinal change through events and documents.</h1>
+    <p>
+      Timeline entries connect official sources, international legal materials, and state practice so readers can see how arguments and institutions develop over time.
+    </p>
+  </section>
+  <section class="timeline-list timeline-list--full">
+    {timeline.map((entry) => (
+      <article>
+        <time datetime={entry.date}>{entry.date}</time>
+        <h2>{entry.title}</h2>
+        <p>{entry.summary}</p>
+        <div class="tag-row">
+          {entry.topics.map((topic) => <a class="tag" href={`/topics/${topic}/`}>{topicLabels[topic]}</a>)}
+        </div>
+      </article>
+    ))}
+  </section>
+</SiteLayout>

@@ -1,0 +1,68 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import RecordCard from "../components/RecordCard.astro";
+import { loadSiteContent, topicLabels } from "../lib/content.mjs";
+import { guides } from "../lib/guides.mjs";
+
+const content = loadSiteContent();
+const featured = [
+  "prc-2023-global-community-shared-future",
+  "prc-2023-bri-whitepaper",
+  "prc-2021-anti-foreign-sanctions-law",
+].map((id) => content.records.find((record) => record.id === id));
+---
+
+<SiteLayout hero={true}>
+  <section class="hero">
+    <div class="hero__shade"></div>
+    <div class="hero__content">
+      <p class="eyebrow">Curated research portal</p>
+      <h1>China, International Law, and International Order</h1>
+      <p class="hero__lede">
+        A scholarly guide to official documents, international legal materials, Chinese state practice, think tank reports, and literature on China's evolving approach to international law and global order.
+      </p>
+      <div class="hero__actions">
+        <a class="button button--primary" href="/archive/">Search the archive</a>
+        <a class="button" href="/topics/theory-order/">Explore topic guides</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--stats" aria-label="Collection summary">
+    <div class="stats">
+      <span><strong>{content.records.length}</strong> curated records</span>
+      <span><strong>{Object.keys(topicLabels).length}</strong> topic guides</span>
+      <span><strong>{content.timeline.length}</strong> chronology entries</span>
+      <span><strong>{content.bibliography.length}</strong> bibliography items</span>
+    </div>
+  </section>
+
+  <section class="section-grid">
+    <div>
+      <p class="eyebrow">Topic dossiers</p>
+      <h2>Begin with the legal questions, then move into the documents.</h2>
+      <p>
+        Each guide combines a short analytical frame, key questions, selected records, chronology links, and scholarly readings. The archive remains searchable underneath, but the site's first job is orientation.
+      </p>
+    </div>
+    <div class="topic-list">
+      {guides.map((guide) => (
+        <a class="topic-tile" href={`/topics/${guide.slug}/`}>
+          <span>{guide.eyebrow}</span>
+          <strong>{guide.title}</strong>
+          <small>{guide.dek}</small>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="section-heading">
+      <p class="eyebrow">Featured sources</p>
+      <h2>Launch records for editorial review</h2>
+    </div>
+    <div class="record-grid">
+      {featured.map((record) => record && <RecordCard record={record} />)}
+    </div>
+  </section>
+</SiteLayout>

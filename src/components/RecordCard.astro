@@ -1,0 +1,23 @@
+---
+import { topicLabels } from "../lib/topics.mjs";
+
+const { record, compact = false } = Astro.props;
+---
+
+<article class:list={["record-card", compact && "record-card--compact"]}>
+  <div class="record-card__meta">
+    <span>{record.source_type}</span>
+    <span>{record.date}</span>
+    <span>{record.institution}</span>
+  </div>
+  <h3>
+    <a href={record.url} target="_blank" rel="noreferrer">{record.title_en}</a>
+  </h3>
+  {record.title_zh && <p class="record-card__zh" lang="zh-Hans">{record.title_zh}</p>}
+  {!compact && <p>{record.summary}</p>}
+  <p class="record-card__note">{record.significance_note}</p>
+  <p class="record-card__citation">{record.citation}</p>
+  <div class="tag-row">
+    {record.topics.map((topic) => <a class="tag" href={`/topics/${topic}/`}>{topicLabels[topic]}</a>)}
+  </div>
+</article>

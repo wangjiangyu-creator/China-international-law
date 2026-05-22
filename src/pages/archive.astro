@@ -1,0 +1,149 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import RecordCard from "../components/RecordCard.astro";
+import { loadSiteContent, sourceTypes, topicLabels, topicOrder } from "../lib/content.mjs";
+import { getFacetValues } from "../lib/search.mjs";
+
+const { records } = loadSiteContent();
+const institutions = getFacetValues(records, "institution");
+const languages = getFacetValues(records, "language");
+const jurisdictions = getFacetValues(records, "jurisdiction");
+const recordsForClient = records.map((record) => ({
+  id: record.id,
+  title: record.title_en,
+  sourceType: record.source_type,
+  institution: record.institution,
+  language: record.language,
+  jurisdiction: record.jurisdiction,
+  year: record.year,
+  topics: record.topics,
+  searchText: record.searchText,
+}));
+---
+
+<SiteLayout title="Archive | China, International Law, and International Order">
+  <section class="page-intro">
+    <p class="eyebrow">Source archive</p>
+    <h1>Search and filter the curated corpus.</h1>
+    <p>
+      The archive is intentionally citation-forward: records link to official or stable source locations and include concise annotations for review.
+    </p>
+  </section>
+
+  <section class="archive-shell" data-archive>
+    <form class="filters" aria-label="Archive filters">
+      <label>
+        <span>Search</span>
+        <input id="filter-query" type="search" placeholder="sanctions, WTO, sovereignty, BRI..." />
+      </label>
+      <label>
+        <span>Topic</span>
+        <select id="filter-topic">
+          <option value="">All topics</option>
+          {topicOrder.map((topic) => <option value={topic}>{topicLabels[topic]}</option>)}
+        </select>
+      </label>
+      <label>
+        <span>Source type</span>
+        <select id="filter-source">
+          <option value="">All source types</option>
+          {sourceTypes.map((type) => <option value={type}>{type}</option>)}
+        </select>
+      </label>
+      <label>
+        <span>Institution</span>
+        <select id="filter-institution">
+          <option value="">All institutions</option>
+          {institutions.map((institution) => <option value={institution}>{institution}</option>)}
+        </select>
+      </label>
+      <label>
+        <span>Language</span>
+        <select id="filter-language">
+          <option value="">All languages</option>
+          {languages.map((language) => <option value={language}>{language}</option>)}
+        </select>
+      </label>
+      <label>
+        <span>Jurisdiction</span>
+        <select id="filter-jurisdiction">
+          <option value="">All jurisdictions</option>
+          {jurisdictions.map((jurisdiction) => <option value={jurisdiction}>{jurisdiction}</option>)}
+        </select>
+      </label>
+      <div class="filter-actions">
+        <output id="result-count">{records.length} records</output>
+        <button type="reset">Reset</button>
+      </div>
+    </form>
+
+    <div class="record-list" id="record-list">
+      {records.map((record) => (
+        <div class="record-item" data-record-id={record.id}>
+          <RecordCard record={record} compact={true} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <script define:vars={{ recordsForClient }}>
+    const controls = {
+      query: document.querySelector("#filter-query"),
+      topic: document.querySelector("#filter-topic"),
+      sourceType: document.querySelector("#filter-source"),
+      institution: document.querySelector("#filter-institution"),
+      language: document.querySelector("#filter-language"),
+      jurisdiction: document.querySelector("#filter-jurisdiction"),
+    };
+    const output = document.querySelector("#result-count");
+    const items = new Map(
+      [...document.querySelectorAll("[data-record-id]")].map((item) => [
+        item.dataset.recordId,
+        item,
+      ]),
+    );
+
+    function matches(record, filters) {
+      if (filters.query && !record.searchText.includes(filters.query)) return false;
+      if (filters.topic && !record.topics.includes(filters.topic)) return false;
+      if (filters.sourceType && record.sourceType !== filters.sourceType) return false;
+      if (filters.institution && record.institution !== filters.institution) return false;
+      if (filters.language && record.language !== filters.language) return false;
+      if (filters.jurisdiction && record.jurisdiction !== filters.jurisdiction) return false;
+      return true;
+    }
+
+    function updateArchive() {
+      const filters = {
+        query: controls.query.value.trim().toLowerCase(),
+        topic: controls.topic.value,
+        sourceType: controls.sourceType.value,
+        institution: controls.institution.value,
+        language: controls.language.value,
+        jurisdiction: controls.jurisdiction.value,
+      };
+      let count = 0;
+      for (const record of recordsForClient) {
+        const visible = matches(record, filters);
+        items.get(record.id).hidden = !visible;
+        if (visible) count += 1;
+      }
+      output.value = `${count} ${count === 1 ? "record" : "records"}`;
+    }
+
+    for (const control of Object.values(controls)) {
+      control.addEventListener("input", updateArchive);
+    }
+    document.querySelector(".filters").addEventListener("reset", () => {
+      window.setTimeout(updateArchive, 0);
+    });
+    const initialParams = new URLSearchParams(window.location.search);
+    if (initialParams.has("q")) controls.query.value = initialParams.get("q");
+    if (initialParams.has("topic")) controls.topic.value = initialParams.get("topic");
+    if (initialParams.has("source")) controls.sourceType.value = initialParams.get("source");
+    if (initialParams.has("institution")) controls.institution.value = initialParams.get("institution");
+    if (initialParams.has("language")) controls.language.value = initialParams.get("language");
+    if (initialParams.has("jurisdiction")) controls.jurisdiction.value = initialParams.get("jurisdiction");
+    updateArchive();
+  </script>
+</SiteLayout>

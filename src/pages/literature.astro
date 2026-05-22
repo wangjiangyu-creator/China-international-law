@@ -1,0 +1,29 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { loadSiteContent, topicLabels } from "../lib/content.mjs";
+
+const { bibliography } = loadSiteContent();
+---
+
+<SiteLayout title="Literature and Reports | China, International Law, and International Order">
+  <section class="page-intro">
+    <p class="eyebrow">Bibliography</p>
+    <h1>Scholarship, monographs, articles, and research reports.</h1>
+    <p>
+      This bibliography is a launch layer for teaching and research. It intentionally combines legal scholarship, international relations work, and policy research.
+    </p>
+  </section>
+  <section class="reading-list reading-list--full">
+    {bibliography.map((entry) => (
+      <article>
+        <p class="eyebrow">{entry.type} · {entry.date}</p>
+        <h2><a href={entry.url} target="_blank" rel="noreferrer">{entry.title}</a></h2>
+        <p>{entry.citation}</p>
+        <small>{entry.note}</small>
+        <div class="tag-row">
+          {entry.topics.map((topic) => <a class="tag" href={`/topics/${topic}/`}>{topicLabels[topic]}</a>)}
+        </div>
+      </article>
+    ))}
+  </section>
+</SiteLayout>

@@ -150,7 +150,7 @@ p {
 }
 
 .hero {
-  min-height: calc(78vh - 76px);
+  min-height: calc(66vh - 76px);
   display: flex;
   align-items: center;
   position: relative;
@@ -159,7 +159,7 @@ p {
   background-size: cover;
   background-position: center;
   color: white;
-  padding: clamp(2rem, 5vw, 4rem);
+  padding: clamp(1.8rem, 4vw, 3.2rem);
 }
 
 .hero__shade {
@@ -171,13 +171,18 @@ p {
 
 .hero__content {
   max-width: 980px;
-  padding-top: 2rem;
+  padding-top: 1rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.05rem, 4.1vw, 4.25rem);
+  max-width: 14ch;
 }
 
 .hero__lede {
-  max-width: 760px;
+  max-width: 720px;
   margin-top: 1.25rem;
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-size: clamp(1rem, 1.7vw, 1.22rem);
 }
 
 .hero__actions,
@@ -548,7 +553,7 @@ select {
   }
 
   .hero {
-    min-height: 70vh;
+    min-height: 58vh;
   }
 
   .stats {

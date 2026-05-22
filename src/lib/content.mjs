@@ -5,6 +5,7 @@ import { parseCsv } from "./csv.mjs";
 import { sourceTypes, topicLabels, topicOrder } from "./topics.mjs";
 
 const dataDir = join(process.cwd(), "src/data");
+const recordFiles = ["records.csv", "records-extra.csv"];
 const datePattern = /^\d{4}(-\d{2}(-\d{2})?)?$/;
 const recordCorrections = {
   "prc-1982-constitution": {
@@ -89,6 +90,10 @@ export function loadCsv(filename) {
   return parseCsv(readFileSync(join(dataDir, filename), "utf8"));
 }
 
+export function loadRecords() {
+  return recordFiles.flatMap((filename) => loadCsv(filename)).map(normalizeRecord);
+}
+
 export function normalizeRecord(record) {
   const normalized = { ...record, ...(recordCorrections[record.id] ?? {}) };
   const topics = splitList(normalized.topics);
@@ -132,7 +137,7 @@ export function normalizeBibliography(entry) {
 
 export function loadSiteContent() {
   return {
-    records: loadCsv("records.csv").map(normalizeRecord),
+    records: loadRecords(),
     timeline: loadCsv("timelines.csv").map(normalizeTimeline),
     bibliography: loadCsv("bibliography.csv").map(normalizeBibliography),
   };

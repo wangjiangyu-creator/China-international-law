@@ -5,7 +5,11 @@ import { parseCsv } from "./csv.mjs";
 import { sourceTypes, topicLabels, topicOrder } from "./topics.mjs";
 
 const dataDir = join(process.cwd(), "src/data");
-const recordFiles = ["records.csv", "records-extra.csv"];
+const recordFiles = [
+  "records.csv",
+  "records-extra.csv",
+  "records-scholarship.csv",
+];
 const datePattern = /^\d{4}(-\d{2}(-\d{2})?)?$/;
 const recordCorrections = {
   "prc-1982-constitution": {

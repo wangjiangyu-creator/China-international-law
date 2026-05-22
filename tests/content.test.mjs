@@ -91,12 +91,15 @@ test("loadSiteContent provides the launch-scale curated corpus", () => {
   const result = validateContent(content);
 
   assert.equal(result.ok, true, result.errors.join("\n"));
-  assert.ok(content.records.length >= 240);
+  assert.ok(content.records.length >= 295);
   assert.ok(content.timeline.length >= 20);
   assert.ok(content.bibliography.length >= 20);
   assert.ok(content.records.some((record) => record.id === "prc-2018-arctic-policy"));
   assert.ok(content.records.some((record) => record.id === "prc-2020-unreliable-entity-list"));
   assert.ok(content.records.some((record) => record.id === "practice-2025-iomed-signing"));
+  assert.ok(content.records.some((record) => record.id === "lit-2024-cjtl-frl-political-framing"));
+  assert.ok(content.records.some((record) => record.id === "lit-2025-hague-foreign-related-rule-of-law"));
+  assert.ok(content.records.some((record) => record.id === "tt-2026-hcss-chinese-lawfare"));
   assert.deepEqual(Object.keys(topicLabels), [
     "theory-order",
     "sovereignty-non-interference",
@@ -141,6 +144,20 @@ test("filterRecords combines search text with topic and source filters", () => {
   });
 
   assert.ok(mediation.length >= 2);
+
+  const foreignRelationsLaw = filterRecords(records, {
+    query: "Foreign Relations Law",
+    sourceType: "Literature",
+  });
+
+  assert.ok(foreignRelationsLaw.length >= 3);
+
+  const lawfare = filterRecords(records, {
+    query: "lawfare",
+    sourceType: "Think tank report",
+  });
+
+  assert.ok(lawfare.length >= 2);
 });
 
 test("getTopicProfile returns records, timeline entries, and bibliography for a topic", () => {

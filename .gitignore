@@ -5,3 +5,4 @@ dist/
 public/images/order-map.png
 .DS_Store
 npm-debug.log*
+# Temporary bootstrap files are removed by the first deployment workflow.

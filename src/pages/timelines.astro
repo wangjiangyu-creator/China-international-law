@@ -3,6 +3,8 @@ import SiteLayout from "../layouts/SiteLayout.astro";
 import { loadSiteContent, topicLabels } from "../lib/content.mjs";
 
 const { timeline } = loadSiteContent();
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const withBase = (path) => `${base}${path}`;
 ---
 
 <SiteLayout title="Timelines | China, International Law, and International Order">
@@ -20,7 +22,7 @@ const { timeline } = loadSiteContent();
         <h2>{entry.title}</h2>
         <p>{entry.summary}</p>
         <div class="tag-row">
-          {entry.topics.map((topic) => <a class="tag" href={`/topics/${topic}/`}>{topicLabels[topic]}</a>)}
+          {entry.topics.map((topic) => <a class="tag" href={withBase(`/topics/${topic}/`)}>{topicLabels[topic]}</a>)}
         </div>
       </article>
     ))}

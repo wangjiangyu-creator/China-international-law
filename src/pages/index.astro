@@ -10,6 +10,8 @@ const featured = [
   "prc-2023-bri-whitepaper",
   "prc-2021-anti-foreign-sanctions-law",
 ].map((id) => content.records.find((record) => record.id === id));
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const withBase = (path) => `${base}${path}`;
 ---
 
 <SiteLayout hero={true}>
@@ -22,8 +24,8 @@ const featured = [
         A scholarly guide to official documents, international legal materials, Chinese state practice, think tank reports, and literature on China's evolving approach to international law and global order.
       </p>
       <div class="hero__actions">
-        <a class="button button--primary" href="/archive/">Search the archive</a>
-        <a class="button" href="/topics/theory-order/">Explore topic guides</a>
+        <a class="button button--primary" href={withBase("/archive/")}>Search the archive</a>
+        <a class="button" href={withBase("/topics/theory-order/")}>Explore topic guides</a>
       </div>
     </div>
   </section>
@@ -47,7 +49,7 @@ const featured = [
     </div>
     <div class="topic-list">
       {guides.map((guide) => (
-        <a class="topic-tile" href={`/topics/${guide.slug}/`}>
+        <a class="topic-tile" href={withBase(`/topics/${guide.slug}/`)}>
           <span>{guide.eyebrow}</span>
           <strong>{guide.title}</strong>
           <small>{guide.dek}</small>

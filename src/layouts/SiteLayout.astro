@@ -15,6 +15,9 @@ const nav = [
   ["Methodology", "/methodology/"],
   ["About", "/about/"],
 ];
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const withBase = (path) => `${base}${path}`;
 ---
 
 <!doctype html>
@@ -28,7 +31,7 @@ const nav = [
   <body class:list={[hero && "has-hero"]}>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" aria-label="Site header">
-      <a class="brand" href="/">
+      <a class="brand" href={withBase("/")}>
         <span class="brand-mark">CILO</span>
         <span>
           <strong>China, International Law, and International Order</strong>
@@ -36,7 +39,7 @@ const nav = [
         </span>
       </a>
       <nav class="site-nav" aria-label="Primary navigation">
-        {nav.map(([label, href]) => <a href={href}>{label}</a>)}
+        {nav.map(([label, href]) => <a href={withBase(href)}>{label}</a>)}
       </nav>
     </header>
     <main id="main">
@@ -48,9 +51,9 @@ const nav = [
         <p>Official documents, international-law materials, state practice, reports, and scholarship for research and teaching.</p>
       </div>
       <div>
-        <a href="/methodology/">Methodology</a>
-        <a href="/archive/">Source archive</a>
-        <a href="/about/">About Professor Wang</a>
+        <a href={withBase("/methodology/")}>Methodology</a>
+        <a href={withBase("/archive/")}>Source archive</a>
+        <a href={withBase("/about/")}>About Professor Wang</a>
       </div>
     </footer>
   </body>

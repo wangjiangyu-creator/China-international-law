@@ -18,6 +18,8 @@ const featured = guide.featuredIds
 const readings = guide.readingIds
   .map((id) => content.bibliography.find((entry) => entry.id === id))
   .filter(Boolean);
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const withBase = (path) => `${base}${path}`;
 ---
 
 <SiteLayout title={`${guide.title} | China, International Law, and International Order`}>
@@ -33,7 +35,7 @@ const readings = guide.readingIds
       <ol>
         {guide.questions.map((question) => <li>{question}</li>)}
       </ol>
-      <a class="button button--primary" href={`/archive/?topic=${guide.slug}`}>Search this topic</a>
+      <a class="button button--primary" href={withBase(`/archive/?topic=${guide.slug}`)}>Search this topic</a>
     </aside>
     <div class="dossier__main">
       <h2>Analytical frame</h2>

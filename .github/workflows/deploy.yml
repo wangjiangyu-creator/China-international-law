@@ -28,7 +28,17 @@ jobs:
           set -euo pipefail
           if compgen -G ".codex/bootstrap-source.tgz.b64.*" > /dev/null; then
             mkdir -p /tmp/china-source
-            cat .codex/bootstrap-source.tgz.b64.* | sed 's/PBVVmtMioDt/PBVVmtM9ioDt/' | base64 -d | tar -xzf - -C /tmp/china-source
+            python3 - <<'PY'
+          from pathlib import Path
+          parts = [Path(f".codex/bootstrap-source.tgz.b64.{index:02d}") for index in range(5)]
+          payload = "".join(part.read_text().strip() for part in parts)
+          payload = payload.replace("PBVVmtMioDt", "PBVVmtM9ioDt", 1)
+          missing = Path(".codex/bootstrap-source.tgz.b64.04.missing").read_text().strip()
+          anchor = "i8d++9+hXP/nwv/zg8ed/cfy5f/zgO/Fu7Hif8MQP"
+          payload = payload.replace(anchor, "i8d++9+hXP/nwv/zg8ed/cfy5f/zgO" + missing + "/Fu7Hif8MQP", 1)
+          Path("/tmp/bootstrap-source.tgz.b64").write_text(payload)
+          PY
+            base64 -d /tmp/bootstrap-source.tgz.b64 | tar -xzf - -C /tmp/china-source
             rsync -a --delete --exclude='.git' /tmp/china-source/ ./
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

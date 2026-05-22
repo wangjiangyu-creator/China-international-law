@@ -29,7 +29,7 @@ jobs:
           if [ -f .codex/china-international-law-source.tgz ]; then
             mkdir -p /tmp/china-source
             tar -xzf .codex/china-international-law-source.tgz -C /tmp/china-source
-            rsync -a --delete --exclude='.git' /tmp/china-source/ ./
+            rsync -a --delete --exclude='.git' --exclude='.github/workflows/***' /tmp/china-source/ ./
             find . -name '._*' -delete
             find . -name '.DS_Store' -delete
             git config user.name "github-actions[bot]"

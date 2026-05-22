@@ -54,6 +54,22 @@ test("validateContent rejects duplicate record IDs, invalid URLs, and unknown to
         summary: "Summary.",
         significance_note: "Note.",
       },
+      {
+        id: "search-link",
+        title_en: "Search placeholder",
+        title_zh: "",
+        source_type: "PRC official document",
+        institution: "Ministry of Foreign Affairs",
+        date: "2024-01-01",
+        topics: "theory-order",
+        jurisdiction: "China",
+        language: "English",
+        url: "https://www.google.com/search?q=source%3E",
+        doi_or_isbn: "",
+        citation: "Valid citation",
+        summary: "Summary.",
+        significance_note: "Note.",
+      },
     ],
     timeline: [],
     bibliography: [],
@@ -66,6 +82,8 @@ test("validateContent rejects duplicate record IDs, invalid URLs, and unknown to
   assert.match(result.errors.join("\n"), /Record dup has invalid URL/);
   assert.match(result.errors.join("\n"), /Record dup has unknown topic: unknown-topic/);
   assert.match(result.errors.join("\n"), /Record dup is missing citation/);
+  assert.match(result.errors.join("\n"), /Record search-link uses a Google search placeholder URL/);
+  assert.match(result.errors.join("\n"), /Record search-link has a malformed URL artifact/);
 });
 
 test("loadSiteContent provides the launch-scale curated corpus", () => {

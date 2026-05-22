@@ -91,9 +91,12 @@ test("loadSiteContent provides the launch-scale curated corpus", () => {
   const result = validateContent(content);
 
   assert.equal(result.ok, true, result.errors.join("\n"));
-  assert.ok(content.records.length >= 150);
+  assert.ok(content.records.length >= 240);
   assert.ok(content.timeline.length >= 20);
   assert.ok(content.bibliography.length >= 20);
+  assert.ok(content.records.some((record) => record.id === "prc-2018-arctic-policy"));
+  assert.ok(content.records.some((record) => record.id === "prc-2020-unreliable-entity-list"));
+  assert.ok(content.records.some((record) => record.id === "practice-2025-iomed-signing"));
   assert.deepEqual(Object.keys(topicLabels), [
     "theory-order",
     "sovereignty-non-interference",
@@ -131,6 +134,13 @@ test("filterRecords combines search text with topic and source filters", () => {
   });
 
   assert.ok(wto.length >= 10);
+
+  const mediation = filterRecords(records, {
+    query: "International Organization for Mediation",
+    topic: "dispute-settlement",
+  });
+
+  assert.ok(mediation.length >= 2);
 });
 
 test("getTopicProfile returns records, timeline entries, and bibliography for a topic", () => {
@@ -156,7 +166,7 @@ test("one country two systems topic covers Hong Kong, Macau, and Taiwan material
     guide?.title,
     "China's One Country, Two Systems: Hong Kong, Macau and Taiwan",
   );
-  assert.ok(profile.records.length >= 8);
+  assert.ok(profile.records.length >= 18);
   assert.ok(profile.timeline.length >= 4);
   assert.ok(profile.bibliography.length >= 2);
   assert.ok(profile.records.some((record) => /Hong Kong/.test(record.title_en)));

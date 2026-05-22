@@ -9,6 +9,26 @@ const datePattern = /^\d{4}(-\d{2}(-\d{2})?)?$/;
 
 export { sourceTypes, topicLabels, topicOrder };
 
+function validateWebUrl(url, label, errors) {
+  let parsed;
+  try {
+    parsed = new URL(url);
+  } catch {
+    errors.push(`${label} has invalid URL: ${url}`);
+    return;
+  }
+
+  if (!["http:", "https:"].includes(parsed.protocol)) {
+    errors.push(`${label} must use an HTTP(S) URL: ${url}`);
+  }
+  if (/^www\.google\.[^/]+$/i.test(parsed.hostname) && parsed.pathname === "/search") {
+    errors.push(`${label} uses a Google search placeholder URL: ${url}`);
+  }
+  if (/%3e/i.test(url)) {
+    errors.push(`${label} has a malformed URL artifact: ${url}`);
+  }
+}
+
 export function splitList(value) {
   return String(value ?? "")
     .split(/[;|]/)
@@ -91,11 +111,7 @@ export function validateContent(content) {
     if (!record.url) {
       errors.push(`Record ${id} is missing URL`);
     } else {
-      try {
-        new URL(record.url);
-      } catch {
-        errors.push(`Record ${id} has invalid URL: ${record.url}`);
-      }
+      validateWebUrl(record.url, `Record ${id}`, errors);
     }
     if (!record.citation) errors.push(`Record ${id} is missing citation`);
     if (!record.summary) errors.push(`Record ${id} is missing summary`);
@@ -134,7 +150,11 @@ export function validateContent(content) {
     if (!entry.id) errors.push("Bibliography entry is missing id");
     if (!entry.title) errors.push(`Bibliography ${id} is missing title`);
     if (!entry.citation) errors.push(`Bibliography ${id} is missing citation`);
-    if (!entry.url) errors.push(`Bibliography ${id} is missing URL`);
+    if (!entry.url) {
+      errors.push(`Bibliography ${id} is missing URL`);
+    } else {
+      validateWebUrl(entry.url, `Bibliography ${id}`, errors);
+    }
     for (const topic of Array.isArray(entry.topics) ? entry.topics : splitList(entry.topics)) {
       if (!knownTopics.has(topic)) errors.push(`Bibliography ${id} has unknown topic: ${topic}`);
     }

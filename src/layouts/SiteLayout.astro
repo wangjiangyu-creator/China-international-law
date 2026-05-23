@@ -5,6 +5,7 @@ const {
   title = "China, International Law, and International Order",
   description = "A curated scholarly portal on China's approach to international law and the evolving international order.",
   hero = false,
+  footerNote = "",
 } = Astro.props;
 
 const nav = [
@@ -49,6 +50,7 @@ const withBase = (path) => `${base}${path}`;
       <div>
         <strong>China, International Law, and International Order</strong>
         <p>Official documents, international-law materials, state practice, reports, and scholarship for research and teaching.</p>
+        {footerNote && <p class="site-footer__credit">{footerNote}</p>}
       </div>
       <div>
         <a href={withBase("/methodology/")}>Methodology</a>

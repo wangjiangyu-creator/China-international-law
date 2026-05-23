@@ -1,0 +1,67 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { loadSiteContent } from "../../lib/content.mjs";
+import { guides } from "../../lib/guides.mjs";
+import { getTopicProfile } from "../../lib/search.mjs";
+
+const content = loadSiteContent();
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const withBase = (path) => `${base}${path}`;
+const topicProfiles = guides.map((guide) => ({
+  guide,
+  profile: getTopicProfile(content, guide.slug),
+}));
+---
+
+<SiteLayout title="Topics | China, International Law, and International Order">
+  <section class="page-intro">
+    <p class="eyebrow">Topic guides</p>
+    <h1>Topics</h1>
+    <p>
+      The site is organized around eight research dossiers. Each topic introduces a legal problem, identifies the questions that structure the archive, and links readers to the relevant documents, state practice, reports, and literature.
+    </p>
+  </section>
+
+  <section class="topics-overview" aria-label="Detailed topic introductions">
+    <div class="topics-overview__header">
+      <h2>Eight entry points into China's approach to international law</h2>
+      <p>
+        These introductions are meant to orient research before readers enter the document archive. They are deliberately comparative: each topic can be read alone, but the deeper value comes from following how sovereignty, development, security, dispute settlement, and institutional reform recur across the whole project.
+      </p>
+    </div>
+
+    <div class="topic-overview-list">
+      {topicProfiles.map(({ guide, profile }) => (
+        <article class="topic-overview-card" id={guide.slug}>
+          <div>
+            <p class="eyebrow">{guide.eyebrow}</p>
+            <h2><a href={withBase(`/topics/${guide.slug}/`)}>{guide.title}</a></h2>
+            <p class="topic-overview-card__dek">{guide.dek}</p>
+          </div>
+
+          <div class="topic-overview-card__body">
+            {guide.overview.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+
+          <div class="topic-overview-card__meta" aria-label={`${guide.title} coverage`}>
+            <span><strong>{profile.records.length}</strong> records</span>
+            <span><strong>{profile.timeline.length}</strong> chronology entries</span>
+            <span><strong>{profile.bibliography.length}</strong> readings</span>
+          </div>
+
+          <div class="topic-overview-card__questions">
+            <h3>Key questions</h3>
+            <ul>
+              {guide.questions.map((question) => <li>{question}</li>)}
+            </ul>
+          </div>
+
+          <div class="topic-overview-card__actions">
+            <a class="button button--primary" href={withBase(`/topics/${guide.slug}/`)}>Open guide</a>
+            <a class="button" href={withBase(`/archive/?topic=${guide.slug}`)}>Search records</a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</SiteLayout>

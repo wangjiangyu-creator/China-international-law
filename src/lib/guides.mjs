@@ -6,6 +6,10 @@ export const guides = [
     dek: "China's vocabulary of sovereignty, development, multilateralism, and reform of global governance.",
     thesis:
       "This guide tracks how official Chinese materials describe the existing international order: not as something to abandon wholesale, but as something to defend selectively, reform institutionally, and reinterpret through development, sovereign equality, and anti-hegemonic language.",
+    overview: [
+      "This topic introduces the conceptual vocabulary through which China explains its place in international law and world order. It follows ideas such as sovereign equality, multilateralism, democratization of international relations, a community of shared future, development-first governance, and opposition to hegemony.",
+      "The materials are useful for separating legal argument from diplomatic ideology. Readers can compare white papers, speeches, UN positions, and scholarly commentary to see when China defends existing institutions, when it seeks reform, and when it uses alternative concepts to contest Western or liberal accounts of order.",
+    ],
     questions: [
       "When does China invoke the existing order, and when does it call for reform?",
       "How do ideas such as a community of shared future translate into legal or institutional claims?",
@@ -27,6 +31,10 @@ export const guides = [
     dek: "Territorial integrity, non-intervention, human rights, representation, cyber sovereignty, and Taiwan.",
     thesis:
       "Sovereignty remains the most durable organizing principle in China's international legal rhetoric, but its applications now reach far beyond classic territorial disputes into cyberspace, sanctions, human rights, and transnational adjudication.",
+    overview: [
+      "This topic examines sovereignty as the central organizing concept in China's approach to international law. It covers territorial integrity, non-intervention, representation, human rights scrutiny, cyber sovereignty, national security, and the relationship between domestic constitutional order and external legal claims.",
+      "The guide is designed to show both continuity and adaptation. Classic positions on non-interference remain important, but the archive also tracks newer uses of sovereignty in data governance, sanctions responses, foreign state immunity, and disputes over the boundary between legitimate international concern and unlawful intervention.",
+    ],
     questions: [
       "How does China distinguish lawful international concern from unlawful interference?",
       "What is the relationship between sovereignty claims and domestic legal instruments?",
@@ -48,6 +56,10 @@ export const guides = [
     dek: "Basic Laws, reunification policy, Hong Kong and Macau practice, Taiwan white papers, national security, and autonomy.",
     thesis:
       "One country, two systems is both a constitutional arrangement and an international-order argument: it links sovereignty, autonomy, treaty transition, national security, and the PRC's preferred framework for Taiwan reunification.",
+    overview: [
+      "This topic brings Hong Kong, Macau, and Taiwan into one research frame while preserving the legal differences among them. It covers the Basic Laws, treaty transition, autonomy, national security, reunification policy, Taiwan white papers, and the international implications of one country, two systems.",
+      "The value of the topic is comparative. Hong Kong and Macau provide concrete practice under PRC sovereignty, while Taiwan remains framed through reunification and anti-secession law. Together, the materials show how China connects domestic constitutional arrangements with claims about sovereignty, representation, and international legal status.",
+    ],
     questions: [
       "How do Hong Kong and Macau practice shape China's claims about sovereignty and autonomy?",
       "How is Taiwan treated differently from Hong Kong and Macau within the same conceptual vocabulary?",
@@ -73,6 +85,10 @@ export const guides = [
     dek: "UN Charter law, peacekeeping, intervention, self-defence, non-use of force, and strategic stability.",
     thesis:
       "China's approach to force is built around Charter formalism, Security Council authority, sovereign consent, and suspicion of humanitarian intervention, while its practice has expanded through peacekeeping, anti-piracy operations, and regional security diplomacy.",
+    overview: [
+      "This topic studies China's approach to the UN Charter rules on force, collective security, consent, self-defence, intervention, peacekeeping, and peaceful settlement. It places formal doctrine alongside actual practice, including Security Council voting, peacekeeping contributions, anti-piracy deployments, and security initiatives.",
+      "The guide also highlights areas of tension. China often presents itself as a defender of non-use of force and non-intervention, but Taiwan, maritime disputes, border security, and major-power rivalry require close attention to how legal restraint, deterrence, and sovereignty claims are combined.",
+    ],
     questions: [
       "How does China treat Security Council authorization and state consent?",
       "Where has practice expanded beyond older non-intervention rhetoric?",
@@ -94,6 +110,10 @@ export const guides = [
     dek: "WTO law, IMF surveillance, development cooperation, investment, industrial policy, and economic globalization.",
     thesis:
       "China's economic-order materials combine strong support for multilateral economic institutions with resistance to unilateral pressure and demands for development-sensitive reform of global governance.",
+    overview: [
+      "This topic covers China's interaction with the institutions and rules of the global economy, including the WTO, IMF, development finance, investment law, industrial policy, debt, supply chains, export controls, and economic globalization. It treats China as both a user of existing rules and a force pressing for institutional change.",
+      "The guide helps readers compare China's support for multilateral economic order with its objections to unilateral pressure and unequal rule-making. WTO disputes, Article IV consultations, white papers, BRI finance, and think tank reports together show how legal argument, development policy, and economic statecraft interact.",
+    ],
     questions: [
       "How has China used WTO dispute settlement as both respondent and complainant?",
       "When does China defend globalization, and when does it resist existing rules?",
@@ -115,6 +135,10 @@ export const guides = [
     dek: "Countermeasures, blocking rules, export controls, foreign sanctions, extraterritoriality, and economic coercion.",
     thesis:
       "China's anti-sanctions lawmaking translates objections to unilateral coercion and extraterritorial jurisdiction into domestic legal tools, creating a bridge between sovereignty discourse and economic security governance.",
+    overview: [
+      "This topic focuses on sanctions, counter-sanctions, blocking rules, export controls, long-arm jurisdiction, unreliable entity mechanisms, and economic coercion. It connects China's international law objections to unilateral sanctions with the domestic legal instruments used to resist or retaliate against foreign measures.",
+      "The archive is organized to show sanctions as both doctrine and practice. Readers can trace how China frames sanctions as sovereignty violations, how it builds countermeasures into domestic law, and how firms, courts, regulators, and foreign governments are drawn into conflicts over extraterritoriality.",
+    ],
     questions: [
       "Which foreign measures are framed as unlawful sanctions or interference?",
       "How do blocking rules, export controls, and counter-sanctions interact?",
@@ -136,6 +160,10 @@ export const guides = [
     dek: "Infrastructure, development finance, legal connectivity, dispute settlement, and the community of shared future.",
     thesis:
       "BRI should be studied as a legal and institutional practice rather than only an infrastructure brand: it links development finance, standards, dispute resolution, soft law, and diplomatic ordering.",
+    overview: [
+      "This topic treats the Belt and Road Initiative as a legal and institutional phenomenon, not only as an infrastructure programme. It covers policy documents, development finance, standards, debt, environmental and social governance, connectivity agreements, dispute settlement, and the idea of a community of shared future.",
+      "The central question is whether BRI builds a parallel order, supports existing institutions, or does both in different contexts. The guide brings together official documents, project practice, research reports, and dispute materials to examine how infrastructure diplomacy can produce legal effects without a single founding treaty.",
+    ],
     questions: [
       "Does BRI build a parallel order, supplement existing institutions, or do both in different settings?",
       "What legal instruments and forums make BRI durable?",
@@ -157,6 +185,10 @@ export const guides = [
     dek: "WTO litigation, ICJ participation, arbitration, mediation, Chinese courts, and forum design.",
     thesis:
       "China's dispute-settlement practice is not simply pro- or anti-adjudication. It is forum-specific: active in WTO litigation, cautious toward compulsory maritime adjudication, increasingly interested in mediation, and attentive to China-centred transnational mechanisms.",
+    overview: [
+      "This topic maps China's use of, resistance to, and redesign of international dispute settlement. It includes WTO litigation, ICJ advisory proceedings, arbitration, maritime disputes, mediation, commercial courts, foreign state immunity, enforcement, and the International Organization for Mediation.",
+      "The guide avoids a simple pro-court or anti-court label. China is highly active in some rule-based forums, deeply resistant to others, and increasingly interested in mechanisms that are transnational but more China-centred. The topic therefore follows consent, jurisdiction, enforcement, and forum design across different legal settings.",
+    ],
     questions: [
       "Which forums does China use, resist, or try to reshape?",
       "How do consent, jurisdiction, sovereignty, and enforcement appear across disputes?",

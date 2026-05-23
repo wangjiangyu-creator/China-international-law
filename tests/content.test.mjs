@@ -170,6 +170,18 @@ test("getTopicProfile returns records, timeline entries, and bibliography for a 
   assert.ok(profile.bibliography.length >= 2);
 });
 
+test("topic guides include detailed overview introductions", () => {
+  assert.equal(guides.length, 8);
+  for (const guide of guides) {
+    assert.ok(Array.isArray(guide.overview), `${guide.slug} overview should be an array`);
+    assert.ok(guide.overview.length >= 2, `${guide.slug} should have at least two overview paragraphs`);
+    assert.ok(
+      guide.overview.every((paragraph) => paragraph.length >= 120),
+      `${guide.slug} overview paragraphs should be substantive`,
+    );
+  }
+});
+
 test("one country two systems topic covers Hong Kong, Macau, and Taiwan materials", () => {
   const content = loadSiteContent();
   const profile = getTopicProfile(content, "one-country-two-systems");

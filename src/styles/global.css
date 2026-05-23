@@ -277,7 +277,8 @@ button {
 
 .section-grid,
 .dossier,
-.archive-shell {
+.archive-shell,
+.topics-overview {
   max-width: 1260px;
   margin: 0 auto;
 }
@@ -338,6 +339,89 @@ button {
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.35;
+}
+
+.topic-tile p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.topics-overview {
+  padding: 0 clamp(1rem, 4vw, 3rem) 4.6rem;
+}
+
+.topics-overview__header {
+  display: grid;
+  gap: 0.8rem;
+  max-width: 940px;
+  margin-bottom: 1.2rem;
+}
+
+.topics-overview__header p {
+  color: var(--muted);
+}
+
+.topic-overview-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.topic-overview-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.25fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(29, 38, 44, 0.06);
+}
+
+.topic-overview-card h2 {
+  font-size: clamp(1.35rem, 2vw, 2rem);
+}
+
+.topic-overview-card__dek,
+.topic-overview-card__body,
+.topic-overview-card__questions {
+  color: var(--muted);
+}
+
+.topic-overview-card__body {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.topic-overview-card__meta,
+.topic-overview-card__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  grid-column: 2;
+}
+
+.topic-overview-card__meta {
+  font: 650 0.8rem/1.35 Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.topic-overview-card__meta span {
+  border-left: 3px solid var(--gold);
+  padding-left: 0.55rem;
+}
+
+.topic-overview-card__meta strong {
+  color: var(--ink);
+}
+
+.topic-overview-card__questions {
+  grid-column: 2;
+}
+
+.topic-overview-card__questions ul {
+  margin: 0.45rem 0 0;
+  padding-left: 1.1rem;
 }
 
 .section-heading {
@@ -537,8 +621,15 @@ select {
   .section-grid,
   .record-grid,
   .archive-shell,
-  .dossier {
+  .dossier,
+  .topic-overview-card {
     grid-template-columns: 1fr;
+  }
+
+  .topic-overview-card__meta,
+  .topic-overview-card__actions,
+  .topic-overview-card__questions {
+    grid-column: auto;
   }
 
   .filters,

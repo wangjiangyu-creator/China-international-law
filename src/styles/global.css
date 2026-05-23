@@ -185,6 +185,13 @@ p {
   font-size: clamp(1rem, 1.7vw, 1.22rem);
 }
 
+.hero__credit {
+  max-width: 720px;
+  margin-top: 0.85rem;
+  color: #d8e8ee;
+  font: 600 0.98rem/1.45 Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
 .hero__actions,
 .filter-actions,
 .tag-row {
@@ -502,6 +509,11 @@ select {
 .site-footer p {
   max-width: 620px;
   color: #d8dedf;
+}
+
+.site-footer__credit {
+  margin-top: 0.7rem;
+  font: 600 0.92rem/1.45 Inter, ui-sans-serif, system-ui, sans-serif;
 }
 
 .site-footer a {

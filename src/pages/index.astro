@@ -12,14 +12,16 @@ const featured = [
 ].map((id) => content.records.find((record) => record.id === id));
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const withBase = (path) => `${base}${path}`;
+const siteCredit = "This website is created with Codex by Professor Wang Jiangyu of the City University of Hong Kong School of Law.";
 ---
 
-<SiteLayout hero={true}>
+<SiteLayout hero={true} footerNote={siteCredit}>
   <section class="hero">
     <div class="hero__shade"></div>
     <div class="hero__content">
       <p class="eyebrow">Curated research portal</p>
       <h1>China, International Law, and International Order</h1>
+      <p class="hero__credit">{siteCredit}</p>
       <p class="hero__lede">
         A scholarly guide to official documents, international legal materials, Chinese state practice, think tank reports, and literature on China's evolving approach to international law and global order.
       </p>

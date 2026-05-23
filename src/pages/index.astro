@@ -27,7 +27,7 @@ const siteCredit = "This website is created with Codex by Professor Wang Jiangyu
       </p>
       <div class="hero__actions">
         <a class="button button--primary" href={withBase("/archive/")}>Search the archive</a>
-        <a class="button" href={withBase("/topics/theory-order/")}>Explore topic guides</a>
+        <a class="button" href={withBase("/topics/")}>Explore topic guides</a>
       </div>
     </div>
   </section>
@@ -55,6 +55,7 @@ const siteCredit = "This website is created with Codex by Professor Wang Jiangyu
           <span>{guide.eyebrow}</span>
           <strong>{guide.title}</strong>
           <small>{guide.dek}</small>
+          <p>{guide.overview[0]}</p>
         </a>
       ))}
     </div>

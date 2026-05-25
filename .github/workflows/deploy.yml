@@ -26,9 +26,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ -f .codex/china-international-law-source.tgz ]; then
+          ARCHIVE=".codex/china-international-law-source.tgz"
+          if [ -f "${ARCHIVE}.b64" ]; then
+            base64 -d "${ARCHIVE}.b64" > "$ARCHIVE"
+          fi
+          if [ -f "$ARCHIVE" ]; then
             mkdir -p /tmp/china-source
-            tar -xzf .codex/china-international-law-source.tgz -C /tmp/china-source
+            tar -xzf "$ARCHIVE" -C /tmp/china-source
             rsync -a --delete --exclude='.git' --exclude='.github/workflows/***' /tmp/china-source/ ./
             find . -name '._*' -delete
             find . -name '.DS_Store' -delete

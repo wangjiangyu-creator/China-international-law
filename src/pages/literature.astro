@@ -1,31 +1,79 @@
 ---
+import ReadingCard from "../components/ReadingCard.astro";
 import SiteLayout from "../layouts/SiteLayout.astro";
-import { loadSiteContent, topicLabels } from "../lib/content.mjs";
+import { buildBibliographySections, loadSiteContent } from "../lib/content.mjs";
 
 const { bibliography } = loadSiteContent();
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-const withBase = (path) => `${base}${path}`;
+const view = buildBibliographySections(bibliography);
 ---
 
 <SiteLayout title="Literature and Reports | China, International Law, and International Order">
   <section class="page-intro">
     <p class="eyebrow">Bibliography</p>
-    <h1>Scholarship, monographs, articles, and research reports.</h1>
+    <h1>Scholarship, books, reports, and research tools.</h1>
     <p>
-      This bibliography is a launch layer for teaching and research. It intentionally combines legal scholarship, international relations work, and policy research.
+      This research surface is organized by theme rather than by one long stream. It combines legal scholarship, international relations work, and policy analysis on China, international law, and international order.
     </p>
   </section>
-  <section class="reading-list reading-list--full">
-    {bibliography.map((entry) => (
+
+  <section class="bibliography-dashboard">
+    <div class="bibliography-stats" aria-label="Bibliography summary">
       <article>
-        <p class="eyebrow">{entry.type} · {entry.date}</p>
-        <h2><a href={entry.url} target="_blank" rel="noreferrer">{entry.title}</a></h2>
-        <p>{entry.citation}</p>
-        <small>{entry.note}</small>
-        <div class="tag-row">
-          {entry.topics.map((topic) => <a class="tag" href={withBase(`/topics/${topic}/`)}>{topicLabels[topic]}</a>)}
-        </div>
+        <span class="eyebrow">Total items</span>
+        <strong>{view.summary.total}</strong>
+        <p>Books, articles, edited volumes, reports, and portals.</p>
       </article>
-    ))}
+      <article>
+        <span class="eyebrow">Scholarship</span>
+        <strong>{view.summary.scholarshipCount}</strong>
+        <p>Journal articles, books, and research chapters.</p>
+      </article>
+      <article>
+        <span class="eyebrow">Reports</span>
+        <strong>{view.summary.reportCount}</strong>
+        <p>Think tank work, policy analysis, and research portals.</p>
+      </article>
+    </div>
+
+    <nav class="jump-grid" aria-label="Jump to topic sections">
+      {view.topicSections.map((section) => (
+        <a class="jump-chip" href={`#${section.slug}`}>
+          <strong>{section.label}</strong>
+          <small>{section.count} items</small>
+        </a>
+      ))}
+    </nav>
   </section>
+
+  <section class="reading-section">
+    <div class="section-heading section-heading--split">
+      <div>
+        <p class="eyebrow">Recent additions</p>
+        <h2>Newer entries across the collection</h2>
+      </div>
+      <p class="section-heading__note">
+        The newest scholarship and reports are surfaced first here before being encountered again in their thematic sections below.
+      </p>
+    </div>
+    <div class="reading-grid">
+      {view.recentEntries.map((entry) => <ReadingCard entry={entry} compact={true} />)}
+    </div>
+  </section>
+
+  {view.topicSections.map((section) => (
+    <section id={section.slug} class="reading-section">
+      <div class="section-heading section-heading--split">
+        <div>
+          <p class="eyebrow">Topic section</p>
+          <h2>{section.label}</h2>
+        </div>
+        <p class="section-heading__note">
+          {section.count} items · {section.scholarshipCount} scholarship items · {section.reportCount} reports and policy sources
+        </p>
+      </div>
+      <div class="reading-grid">
+        {section.entries.map((entry) => <ReadingCard entry={entry} compact={true} />)}
+      </div>
+    </section>
+  ))}
 </SiteLayout>

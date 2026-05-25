@@ -6,9 +6,9 @@ A curated scholarly portal for Professor Wang Jiangyu's research on China's appr
 
 - Astro static website with GitHub Pages workflow
 - Eight topic dossiers
-- Searchable archive with 185 launch records
+- Searchable archive with 365 records
 - Chronology with 28 timeline entries
-- Bibliography with 52 literature/report entries
+- Bibliography with 175 literature/report entries
 - Bilingual record metadata where available
 - Content validation for duplicate IDs, invalid URLs, missing citations, invalid dates, and unknown topic tags
 

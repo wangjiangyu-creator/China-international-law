@@ -1,0 +1,24 @@
+---
+import { topicLabels } from "../lib/topics.mjs";
+
+const { entry, compact = false, showTopics = true } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const withBase = (path) => `${base}${path}`;
+---
+
+<article class:list={["reading-card", compact && "reading-card--compact"]}>
+  <p class="reading-card__meta">
+    <span>{entry.type}</span>
+    <span>{entry.date}</span>
+  </p>
+  <h3><a href={entry.url} target="_blank" rel="noreferrer">{entry.title}</a></h3>
+  <p class="reading-card__citation">{entry.citation}</p>
+  {entry.note && <p class="reading-card__note">{entry.note}</p>}
+  {showTopics && entry.topics?.length > 0 && (
+    <div class="tag-row">
+      {entry.topics.map((topic) => (
+        <a class="tag" href={withBase(`/topics/${topic}/`)}>{topicLabels[topic]}</a>
+      ))}
+    </div>
+  )}
+</article>

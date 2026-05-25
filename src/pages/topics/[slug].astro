@@ -1,7 +1,8 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import RecordCard from "../../components/RecordCard.astro";
-import { loadSiteContent } from "../../lib/content.mjs";
+import ReadingCard from "../../components/ReadingCard.astro";
+import { groupReadingEntries, loadSiteContent } from "../../lib/content.mjs";
 import { getTopicProfile } from "../../lib/search.mjs";
 import { guides } from "../../lib/guides.mjs";
 
@@ -15,9 +16,11 @@ const profile = getTopicProfile(content, guide.slug);
 const featured = guide.featuredIds
   .map((id) => content.records.find((record) => record.id === id))
   .filter(Boolean);
-const readings = guide.readingIds
-  .map((id) => content.bibliography.find((entry) => entry.id === id))
-  .filter(Boolean);
+const readingGroups = groupReadingEntries(
+  guide.readingIds
+  .map((id) => content.bibliography.find((entry) => entry.id === id) ?? content.records.find((record) => record.id === id))
+  .filter(Boolean),
+);
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const withBase = (path) => `${base}${path}`;
 ---
@@ -58,13 +61,17 @@ const withBase = (path) => `${base}${path}`;
       </div>
 
       <h2>Selected readings</h2>
-      <div class="reading-list">
-        {readings.map((entry) => (
-          <article>
-            <h3><a href={entry.url} target="_blank" rel="noreferrer">{entry.title}</a></h3>
-            <p>{entry.citation}</p>
-            <small>{entry.note}</small>
-          </article>
+      <div class="reading-groups">
+        {readingGroups.map((group) => (
+          <section class="reading-group">
+            <div class="reading-group__header">
+              <h3>{group.title}</h3>
+              <p>{group.entries.length} items</p>
+            </div>
+            <div class="reading-grid">
+              {group.entries.map((entry) => <ReadingCard entry={entry} compact={true} showTopics={false} />)}
+            </div>
+          </section>
         ))}
       </div>
     </div>

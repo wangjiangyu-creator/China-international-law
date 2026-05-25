@@ -2,13 +2,17 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { parseCsv } from "../src/lib/csv.mjs";
-import {
+import * as contentLib from "../src/lib/content.mjs";
+import { guides } from "../src/lib/guides.mjs";
+import { filterRecords, getTopicProfile } from "../src/lib/search.mjs";
+
+const {
   loadSiteContent,
   validateContent,
   topicLabels,
-} from "../src/lib/content.mjs";
-import { guides } from "../src/lib/guides.mjs";
-import { filterRecords, getTopicProfile } from "../src/lib/search.mjs";
+  buildBibliographySections,
+  groupReadingEntries,
+} = contentLib;
 
 test("parseCsv preserves quoted commas and empty cells", () => {
   const rows = parseCsv('id,title,notes\nr1,"One, two",\nr2,Plain,"quoted ""term"""');
@@ -182,6 +186,22 @@ test("topic guides include detailed overview introductions", () => {
   }
 });
 
+test("topic guide reading IDs resolve to bibliography or records", () => {
+  const content = loadSiteContent();
+  const bibliographyIds = new Set(content.bibliography.map((entry) => entry.id));
+  const recordIds = new Set(content.records.map((record) => record.id));
+
+  for (const guide of guides) {
+    assert.ok(guide.readingIds.length >= 10, `${guide.slug} should have a substantial reading list`);
+    for (const id of guide.readingIds) {
+      assert.ok(
+        bibliographyIds.has(id) || recordIds.has(id),
+        `${guide.slug} references missing reading id ${id}`,
+      );
+    }
+  }
+});
+
 test("one country two systems topic covers Hong Kong, Macau, and Taiwan materials", () => {
   const content = loadSiteContent();
   const profile = getTopicProfile(content, "one-country-two-systems");
@@ -201,4 +221,50 @@ test("one country two systems topic covers Hong Kong, Macau, and Taiwan material
   assert.ok(profile.records.some((record) => /Hong Kong/.test(record.title_en)));
   assert.ok(profile.records.some((record) => /Macau|Macao/.test(record.title_en)));
   assert.ok(profile.records.some((record) => /Taiwan/.test(record.title_en)));
+});
+
+test("buildBibliographySections groups literature by topic order and recent additions", () => {
+  const content = loadSiteContent();
+  const sections = buildBibliographySections(content.bibliography);
+
+  assert.equal(sections.summary.total, content.bibliography.length);
+  assert.ok(sections.summary.reportCount >= 20);
+  assert.ok(sections.summary.scholarshipCount >= 80);
+  assert.equal(sections.topicSections[0].slug, "theory-order");
+  assert.ok(sections.topicSections[0].entries.length >= 20);
+  assert.ok(
+    sections.topicSections.every((section) => section.label === topicLabels[section.slug]),
+  );
+  assert.ok(sections.recentEntries.length >= 8);
+  assert.ok(
+    new Date(sections.recentEntries[0].date) >=
+      new Date(sections.recentEntries.at(-1).date),
+  );
+});
+
+test("groupReadingEntries separates guide readings into scholarship and reports", () => {
+  const content = loadSiteContent();
+  const guide = guides.find((entry) => entry.slug === "theory-order");
+  const readingEntries = guide.readingIds
+    .map(
+      (id) =>
+        content.bibliography.find((entry) => entry.id === id) ??
+        content.records.find((record) => record.id === id),
+    )
+    .filter(Boolean);
+
+  const groups = groupReadingEntries(readingEntries);
+  const scholarship = groups.find((group) => group.key === "scholarship");
+  const reports = groups.find((group) => group.key === "reports");
+
+  assert.ok(scholarship);
+  assert.ok(reports);
+  assert.ok(scholarship.entries.length >= 10);
+  assert.ok(reports.entries.length >= 3);
+  assert.ok(
+    scholarship.entries.some((entry) => /AJIL|International Organization|International Affairs/.test(entry.citation)),
+  );
+  assert.ok(
+    reports.entries.some((entry) => /Brookings|Carnegie|CSIS|Chatham House/.test(entry.citation)),
+  );
 });

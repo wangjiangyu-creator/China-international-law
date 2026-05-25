@@ -63,6 +63,50 @@ const recordCorrections = {
 
 export { sourceTypes, topicLabels, topicOrder };
 
+function compareByDateDesc(a, b) {
+  return String(b.date ?? "").localeCompare(String(a.date ?? ""));
+}
+
+function normalizeEntryType(entry) {
+  return String(entry.type ?? entry.source_type ?? "").toLowerCase();
+}
+
+function isReportLike(entry) {
+  return /report|policy|commentary|memo|portal/.test(normalizeEntryType(entry));
+}
+
+function isReferenceLike(entry) {
+  return /portal|database|project/.test(normalizeEntryType(entry));
+}
+
+function toReadingEntry(entry) {
+  if ("title" in entry) {
+    return {
+      id: entry.id,
+      title: entry.title,
+      url: entry.url,
+      citation: entry.citation,
+      note: entry.note,
+      type: entry.type,
+      date: entry.date,
+      topics: entry.topics ?? [],
+    };
+  }
+
+  return {
+    id: entry.id,
+    title: entry.title_en,
+    url: entry.url,
+    citation: entry.citation,
+    note: [entry.source_type, entry.date, entry.summary, entry.significance_note]
+      .filter(Boolean)
+      .join(" · "),
+    type: entry.source_type,
+    date: entry.date,
+    topics: entry.topics ?? [],
+  };
+}
+
 function validateWebUrl(url, label, errors) {
   let parsed;
   try {
@@ -145,6 +189,75 @@ export function loadSiteContent() {
     timeline: loadCsv("timelines.csv").map(normalizeTimeline),
     bibliography: loadCsv("bibliography.csv").map(normalizeBibliography),
   };
+}
+
+export function buildBibliographySections(bibliography) {
+  const ordered = [...bibliography].sort(compareByDateDesc);
+  const reportCount = bibliography.filter((entry) => isReportLike(entry)).length;
+
+  return {
+    summary: {
+      total: bibliography.length,
+      reportCount,
+      scholarshipCount: bibliography.length - reportCount,
+    },
+    recentEntries: ordered.slice(0, 12),
+    topicSections: topicOrder
+      .map((slug) => {
+        const entries = bibliography
+          .filter((entry) => entry.topics.includes(slug))
+          .sort(compareByDateDesc);
+        return {
+          slug,
+          label: topicLabels[slug],
+          count: entries.length,
+          reportCount: entries.filter((entry) => isReportLike(entry)).length,
+          scholarshipCount: entries.filter((entry) => !isReportLike(entry)).length,
+          entries,
+        };
+      })
+      .filter((section) => section.count > 0),
+  };
+}
+
+export function groupReadingEntries(entries) {
+  const grouped = {
+    scholarship: [],
+    reports: [],
+    references: [],
+  };
+
+  for (const entry of entries.map(toReadingEntry)) {
+    if (isReferenceLike(entry)) {
+      grouped.references.push(entry);
+      continue;
+    }
+    if (isReportLike(entry)) {
+      grouped.reports.push(entry);
+      continue;
+    }
+    grouped.scholarship.push(entry);
+  }
+
+  const sections = [
+    {
+      key: "scholarship",
+      title: "Core scholarship and books",
+      entries: grouped.scholarship.sort(compareByDateDesc),
+    },
+    {
+      key: "reports",
+      title: "Reports and policy analysis",
+      entries: grouped.reports.sort(compareByDateDesc),
+    },
+    {
+      key: "references",
+      title: "Reference portals and research tools",
+      entries: grouped.references.sort(compareByDateDesc),
+    },
+  ];
+
+  return sections.filter((section) => section.entries.length > 0);
 }
 
 export function validateContent(content) {

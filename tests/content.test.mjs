@@ -268,3 +268,21 @@ test("groupReadingEntries separates guide readings into scholarship and reports"
     reports.entries.some((entry) => /Brookings|Carnegie|CSIS|Chatham House/.test(entry.citation)),
   );
 });
+
+test("groupReadingEntries preserves bibliography author and outlet metadata", () => {
+  const content = loadSiteContent();
+  const bibliographyEntry = content.bibliography.find(
+    (entry) => entry.id === "lit-2026-aplr-data-export-regime",
+  );
+
+  assert.ok(bibliographyEntry);
+
+  const groups = groupReadingEntries([bibliographyEntry]);
+  const scholarship = groups.find((group) => group.key === "scholarship");
+  const reading = scholarship?.entries.find(
+    (entry) => entry.id === "lit-2026-aplr-data-export-regime",
+  );
+
+  assert.equal(reading?.author, "Guang Ma and Hong Wu");
+  assert.equal(reading?.outlet, "Asia Pacific Law Review");
+});

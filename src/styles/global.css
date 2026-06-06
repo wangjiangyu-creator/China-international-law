@@ -682,9 +682,16 @@ select {
 }
 
 .reading-card__meta,
+.reading-card__byline,
+.reading-card__outlet,
 .reading-card__citation {
   color: var(--muted);
   font: 650 0.76rem/1.35 Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.reading-card__byline,
+.reading-card__outlet {
+  font-size: 0.8rem;
 }
 
 .reading-card__meta {

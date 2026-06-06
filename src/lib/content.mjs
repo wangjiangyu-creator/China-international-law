@@ -89,6 +89,8 @@ function toReadingEntry(entry) {
       note: entry.note,
       type: entry.type,
       date: entry.date,
+      author: entry.author,
+      outlet: entry.outlet,
       topics: entry.topics ?? [],
     };
   }

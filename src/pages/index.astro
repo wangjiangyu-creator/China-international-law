@@ -27,7 +27,7 @@ const siteCredit = "This website is created with Codex by Professor Wang Jiangyu
       </p>
       <div class="hero__actions">
         <a class="button button--primary" href={withBase("/archive/")}>Search the archive</a>
-        <a class="button" href={withBase("/topics/")}>Explore topic guides</a>
+        <a class="button" href={withBase("/topics/")}>Browse topic guides</a>
       </div>
     </div>
   </section>
@@ -64,9 +64,9 @@ const siteCredit = "This website is created with Codex by Professor Wang Jiangyu
   <section class="band">
     <div class="section-heading">
       <p class="eyebrow">Featured sources</p>
-      <h2>Launch records for editorial review</h2>
+      <h2>Featured records for research orientation</h2>
     </div>
-    <div class="record-grid">
+    <div class="record-grid" aria-label="Featured source records">
       {featured.map((record) => record && <RecordCard record={record} />)}
     </div>
   </section>

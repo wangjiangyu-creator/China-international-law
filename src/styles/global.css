@@ -695,6 +695,7 @@ button:hover {
 }
 
 .bibliography-dashboard,
+.practice-dashboard,
 .reading-section {
   max-width: var(--content);
   margin: 0 auto;
@@ -929,6 +930,42 @@ input::placeholder {
   line-height: 1.52;
 }
 
+.practice-sections {
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 3rem) 4.8rem;
+}
+
+.practice-section {
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--line);
+}
+
+.practice-section + .practice-section {
+  margin-top: 2rem;
+}
+
+.practice-section__header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.practice-section__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.practice-section__actions span {
+  color: var(--muted);
+  font: 800 0.78rem/1.35 ui-sans-serif, system-ui, sans-serif;
+}
+
 .site-footer {
   display: flex;
   justify-content: space-between;
@@ -1028,7 +1065,8 @@ input::placeholder {
   }
 
   .section-heading--split,
-  .reading-group__header {
+  .reading-group__header,
+  .practice-section__header {
     align-items: flex-start;
     flex-direction: column;
   }
@@ -1080,9 +1118,14 @@ input::placeholder {
 
   .hero__actions,
   .topic-overview-card__actions,
-  .filter-actions {
+  .filter-actions,
+  .practice-section__actions {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .practice-section__actions {
+    width: 100%;
   }
 
   .button,

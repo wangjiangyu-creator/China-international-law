@@ -1,0 +1,98 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import RecordCard from "../components/RecordCard.astro";
+import { loadSiteContent, topicLabels, topicOrder } from "../lib/content.mjs";
+
+const { records } = loadSiteContent();
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const withBase = (path) => `${base}${path}`;
+const statePracticeSourceTypes = new Set(["Chinese state practice", "PRC official document"]);
+const statePracticeRecords = records
+  .filter((record) => statePracticeSourceTypes.has(record.source_type) && record.year >= 2020)
+  .sort((left, right) => String(right.date).localeCompare(String(left.date)));
+const practiceTopics = topicOrder
+  .map((slug) => ({
+    slug,
+    label: topicLabels[slug],
+    records: statePracticeRecords.filter((record) => record.topics.includes(slug)),
+  }))
+  .filter((section) => section.records.length > 0);
+const featuredRecords = statePracticeRecords.slice(0, 6);
+const institutions = new Set(statePracticeRecords.map((record) => record.institution).filter(Boolean));
+const latestYear = Math.max(...statePracticeRecords.map((record) => record.year));
+---
+
+<SiteLayout title="State Practice | China, International Law, and International Order">
+  <section class="page-intro">
+    <p class="eyebrow">State practice</p>
+    <h1>China's state practice since 2020.</h1>
+    <p>
+      A topic-by-topic view of recent Chinese state practice in international law, including official documents, institutional participation, treaty and mediation initiatives, countermeasure practice, WTO activity, advisory proceedings, and Hong Kong- or Taiwan-related legal measures.
+    </p>
+  </section>
+
+  <section class="practice-dashboard" aria-label="State practice summary">
+    <div class="bibliography-stats">
+      <article>
+        <p class="eyebrow">Coverage</p>
+        <strong>{statePracticeRecords.length}</strong>
+        <p>official and practice records from 2020 onward</p>
+      </article>
+      <article>
+        <p class="eyebrow">Topic reach</p>
+        <strong>{practiceTopics.length}</strong>
+        <p>topic areas with post-2020 practice</p>
+      </article>
+      <article>
+        <p class="eyebrow">Latest year</p>
+        <strong>{latestYear}</strong>
+        <p>latest record currently in the corpus</p>
+      </article>
+    </div>
+
+    <div class="jump-grid" aria-label="State practice topic shortcuts">
+      {practiceTopics.map((section) => (
+        <a class="jump-chip" href={`#${section.slug}`}>
+          <strong>{section.label}</strong>
+          <small>{section.records.length} {section.records.length === 1 ? "record" : "records"}</small>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="section-heading section-heading--split">
+      <div>
+        <p class="eyebrow">Recent practice</p>
+        <h2>Newest additions across the corpus</h2>
+      </div>
+      <p class="section-heading__note">
+        {institutions.size} institutions and forums are represented, including Chinese ministries, courts, United Nations bodies, the WTO, and the ICJ.
+      </p>
+    </div>
+    <div class="record-grid" aria-label="Recent state practice records">
+      {featuredRecords.map((record) => <RecordCard record={record} compact={true} />)}
+    </div>
+  </section>
+
+  <section class="practice-sections" aria-label="State practice by topic">
+    {practiceTopics.map((section) => (
+      <section class="practice-section" id={section.slug} aria-labelledby={`${section.slug}-heading`}>
+        <div class="practice-section__header">
+          <div>
+            <p class="eyebrow">Topic area</p>
+            <h2 id={`${section.slug}-heading`}>{section.label}</h2>
+          </div>
+          <div class="practice-section__actions">
+            <span>{section.records.length} {section.records.length === 1 ? "record" : "records"}</span>
+            <a class="button" href={withBase(`/archive/?topic=${section.slug}`)}>Open in archive</a>
+            <a class="button button--primary" href={withBase(`/topics/${section.slug}/`)}>Topic guide</a>
+          </div>
+        </div>
+        <div class="record-stack">
+          {section.records.map((record) => <RecordCard record={record} compact={true} />)}
+        </div>
+      </section>
+    ))}
+  </section>
+</SiteLayout>

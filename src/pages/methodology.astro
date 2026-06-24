@@ -1,39 +1,396 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
+
+const methodFamilies = [
+  {
+    label: "International law",
+    title: "Legal interpretation, sources, institutions, and legal argument",
+    summary:
+      "International legal method starts from legal materials: treaties, custom, general principles, judicial decisions, institutional practice, state practice, and scholarly argument. It asks what the law is, how legal authority is produced, and how legal claims are justified.",
+    methods: [
+      {
+        name: "Doctrinal and interpretive method",
+        description:
+          "Reads legal texts, institutional decisions, and state practice to reconstruct rules, exceptions, and standards of argument. Treaty interpretation, sources doctrine, and the treatment of precedent sit at the center of this method.",
+      },
+      {
+        name: "Historical method",
+        description:
+          "Places legal rules and concepts in time. It studies drafting histories, institutional archives, diplomatic records, and the changing political settings in which international legal ideas were formed and used.",
+      },
+      {
+        name: "Comparative and institutional method",
+        description:
+          "Compares how legal norms are developed, received, and enforced across courts, organizations, domestic legal systems, and regional orders. It is useful for studying how China, other states, and institutions translate international law into practice.",
+      },
+      {
+        name: "Critical and Third World approaches",
+        description:
+          "Examines how international law is shaped by power, empire, development, inequality, and political economy. These approaches ask whose interests are stabilized by legal categories and whose experiences are omitted.",
+      },
+    ],
+  },
+  {
+    label: "International relations",
+    title: "Theory, evidence, causal inference, and state behavior",
+    summary:
+      "International relations method studies how states, international organizations, firms, courts, and transnational actors behave under conditions of power, interdependence, uncertainty, and institutional constraint. It asks why actors comply, contest, cooperate, or defect.",
+    methods: [
+      {
+        name: "Theory-guided analysis",
+        description:
+          "Uses realist, liberal, institutionalist, constructivist, English School, and critical theories to specify expectations about behavior. Theory clarifies what counts as evidence and what mechanism is being tested.",
+      },
+      {
+        name: "Case studies and process tracing",
+        description:
+          "Studies particular disputes, institutions, negotiations, or crises in depth. Process tracing follows sequences and mechanisms, making it especially useful for connecting legal argument to diplomatic choice and political outcome.",
+      },
+      {
+        name: "Comparative and small-n research",
+        description:
+          "Compares a limited number of cases to identify patterns, scope conditions, and alternative explanations. It helps separate claims about China-specific practice from broader institutional or regional trends.",
+      },
+      {
+        name: "Quantitative and empirical methods",
+        description:
+          "Uses datasets, coding, statistical models, network analysis, or text-as-data methods to study treaty participation, voting, compliance, litigation, sanctions, investment flows, or institutional behavior at scale.",
+      },
+    ],
+  },
+  {
+    label: "Interdisciplinary IL/IR",
+    title: "How law and politics shape each other",
+    summary:
+      "Interdisciplinary work on international law and international relations treats law neither as autonomous doctrine nor as mere rhetoric. It studies how legal forms influence power, how politics shapes legal institutions, and how norms become actionable through domestic and international processes.",
+    methods: [
+      {
+        name: "Legalization and institutional design",
+        description:
+          "Studies degrees of obligation, precision, delegation, monitoring, and dispute settlement. This method helps compare hard law, soft law, political commitments, and institutional mechanisms such as WTO litigation or mediation bodies.",
+      },
+      {
+        name: "Compliance and effectiveness research",
+        description:
+          "Asks whether legal commitments change conduct, through what mechanisms, and under what conditions. It combines legal interpretation with evidence about incentives, reputation, domestic politics, capacity, and mobilization.",
+      },
+      {
+        name: "Norms, discourse, and legitimation",
+        description:
+          "Studies how actors use legal language to justify, contest, and reframe conduct. It is well suited to research on sovereignty, non-interference, human rights, sanctions, and the vocabulary of international order.",
+      },
+      {
+        name: "Law-in-practice and mixed methods",
+        description:
+          "Combines doctrinal reading, institutional analysis, interviews, archival research, datasets, and close case studies. The aim is to explain both the formal legal claim and the political work that claim performs.",
+      },
+    ],
+  },
+];
+
+const literatureGroups = [
+  {
+    title: "International legal method and theory",
+    description:
+      "Works on sources, interpretation, legal reasoning, history, critical method, and the internal structure of international legal argument.",
+    items: [
+      {
+        type: "Book",
+        citation:
+          "Rossana Deplano and Nicholas Tsagourias, eds., Research Methods in International Law: A Handbook (Edward Elgar, 2021).",
+        note:
+          "Broad handbook on doctrinal, empirical, critical, comparative, historical, and interdisciplinary methods in international law.",
+        url: "https://www.e-elgar.com/shop/gbp/research-methods-in-international-law-9781788972352.html",
+      },
+      {
+        type: "Book",
+        citation:
+          "Steven R. Ratner and Anne-Marie Slaughter, eds., The Methods of International Law (ASIL Studies in Transnational Legal Policy, 2004).",
+        note:
+          "A central collection mapping major approaches to international legal method after the late twentieth-century methodological debates.",
+        url: "https://slaughter.scholar.princeton.edu/books-reviews",
+      },
+      {
+        type: "Book",
+        citation:
+          "Anne Orford, Florian Hoffmann, and Martin Clark, eds., The Oxford Handbook of the Theory of International Law (Oxford University Press, 2016).",
+        note:
+          "Comprehensive reference on theoretical traditions, concepts, and debates that shape how international law is analyzed.",
+        url: "https://global.oup.com/academic/product/the-oxford-handbook-of-the-theory-of-international-law-9780198701958",
+      },
+      {
+        type: "Book",
+        citation:
+          "Richard Gardiner, Treaty Interpretation, 2nd ed. (Oxford University Press, 2015).",
+        note:
+          "Detailed guide to treaty interpretation under the Vienna Convention rules and related international practice.",
+        url: "https://academic.oup.com/oxford-law-pro/book/57883",
+      },
+      {
+        type: "Book",
+        citation:
+          "Martti Koskenniemi, From Apology to Utopia: The Structure of International Legal Argument, reissue ed. (Cambridge University Press, 2005).",
+        note:
+          "Classic critical account of international law as an argumentative practice between concreteness and normativity.",
+        url: "https://www.cambridge.org/core/books/from-apology-to-utopia/146C2D8967B109E959E651A5583EED54",
+      },
+      {
+        type: "Book",
+        citation:
+          "Antony Anghie, Imperialism, Sovereignty and the Making of International Law (Cambridge University Press, 2005).",
+        note:
+          "Foundational TWAIL work on colonial encounter, sovereignty, and the historical construction of international law.",
+        url: "https://www.cambridge.org/core/books/imperialism-sovereignty-and-the-making-of-international-law/8AFA91E6F502B2C4996BB14E1A548E7A",
+      },
+      {
+        type: "Book",
+        citation:
+          "Anne Orford, International Law and the Politics of History (Cambridge University Press, 2021).",
+        note:
+          "Important recent work on the relation between legal reasoning, historical method, and political contestation.",
+        url: "https://www.cambridge.org/core/books/international-law-and-the-politics-of-history/9B7FD6DE4D2C6DF8C152F132A7D65783",
+      },
+      {
+        type: "Article",
+        citation:
+          "Tom Ginsburg and Gregory Shaffer, 'The Empirical Turn in International Legal Scholarship' (2012) 106 American Journal of International Law 1.",
+        note:
+          "Key article surveying empirical international legal scholarship and the methodological choices behind it.",
+        url: "https://chicagounbound.uchicago.edu/journal_articles/2961/",
+      },
+    ],
+  },
+  {
+    title: "International relations research methods",
+    description:
+      "Works on research design, causal inference, case studies, process tracing, constructivism, norm dynamics, and empirical analysis of international behavior.",
+    items: [
+      {
+        type: "Book",
+        citation:
+          "Gary King, Robert O. Keohane, and Sidney Verba, Designing Social Inquiry: Scientific Inference in Qualitative Research (Princeton University Press, 1994).",
+        note:
+          "Influential statement of a unified logic of inference for qualitative and quantitative political science.",
+        url: "https://press.princeton.edu/books/hardcover/9780691224633/designing-social-inquiry",
+      },
+      {
+        type: "Book",
+        citation:
+          "Alexander L. George and Andrew Bennett, Case Studies and Theory Development in the Social Sciences (MIT Press, 2005).",
+        note:
+          "Core book for case-study design, typological theory, and disciplined comparison in political science and IR.",
+        url: "https://mitpress.mit.edu/9780262572224/case-studies-and-theory-development-in-the-social-sciences/",
+      },
+      {
+        type: "Book",
+        citation:
+          "Andrew Bennett and Jeffrey T. Checkel, eds., Process Tracing: From Metaphor to Analytic Tool (Cambridge University Press, 2015).",
+        note:
+          "Standard reference for process tracing, causal mechanisms, and within-case evidence.",
+        url: "https://www.cambridge.org/us/universitypress/subjects/politics-international-relations/political-theory/process-tracing-metaphor-analytic-tool",
+      },
+      {
+        type: "Article",
+        citation:
+          "Alexander Wendt, 'Anarchy is What States Make of It: The Social Construction of Power Politics' (1992) 46 International Organization 391.",
+        note:
+          "Constructivist article showing how ideas, identity, and interaction can be treated as causal and constitutive factors in IR.",
+        url: "https://www.cambridge.org/core/journals/international-organization/article/anarchy-is-what-states-make-of-it-the-social-construction-of-power-politics/B03BC7C9AAC5211B6DC319C077C1A854",
+      },
+      {
+        type: "Article",
+        citation:
+          "Martha Finnemore and Kathryn Sikkink, 'International Norm Dynamics and Political Change' (1998) 52 International Organization 887.",
+        note:
+          "Canonical article on norm emergence, cascade, internalization, and the study of ideational change.",
+        url: "https://ksikkink.scholars.harvard.edu/publications/%E2%80%9Cinternational-norm-dynamics-and-political-change%E2%80%9D-special-issue-",
+      },
+      {
+        type: "Article",
+        citation:
+          "George W. Downs, David M. Rocke, and Peter N. Barsoom, 'Is the Good News about Compliance Good News about Cooperation?' (1996) 50 International Organization 379.",
+        note:
+          "Important critique of selection effects and the interpretation of high compliance rates in international regimes.",
+        url: "https://www.cambridge.org/core/journals/international-organization/article/is-the-good-news-about-compliance-good-news-about-cooperation/636DE333F8E1EC944825DDBFD81BE294",
+      },
+      {
+        type: "Article",
+        citation:
+          "Beth A. Simmons, 'Compliance with International Agreements' (1998) 1 Annual Review of Political Science 75.",
+        note:
+          "Review article on why states comply with international agreements and how compliance should be studied.",
+        url: "https://www.annualreviews.org/content/journals/10.1146/annurev.polisci.1.1.75",
+      },
+    ],
+  },
+  {
+    title: "International law and international relations",
+    description:
+      "Works that explicitly join legal analysis with IR theory, institutional design, compliance research, domestic politics, and empirical study.",
+    items: [
+      {
+        type: "Book",
+        citation:
+          "Jeffrey L. Dunoff and Mark A. Pollack, eds., Interdisciplinary Perspectives on International Law and International Relations: The State of the Art (Cambridge University Press, 2013).",
+        note:
+          "Major edited volume taking stock of IL/IR scholarship on lawmaking, interpretation, compliance, courts, and institutions.",
+        url: "https://www.cambridge.org/core/books/interdisciplinary-perspectives-on-international-law-and-international-relations/21D1528540C96B9E2F7FFED8375650C8",
+      },
+      {
+        type: "Book",
+        citation:
+          "Beth A. Simmons and Richard H. Steinberg, eds., International Law and International Relations (Cambridge University Press, 2007).",
+        note:
+          "Reader collecting influential International Organization articles on legal commitments, institutions, compliance, and cooperation.",
+        url: "https://books.google.com/books/about/International_Law_and_International_Rela.html?id=mWz-5-qq8rMC",
+      },
+      {
+        type: "Book",
+        citation:
+          "Judith L. Goldstein, Miles Kahler, Robert O. Keohane, and Anne-Marie Slaughter, eds., Legalization and World Politics (MIT Press, 2001).",
+        note:
+          "Book version of the International Organization legalization project, useful for studying law as institutionalized politics.",
+        url: "https://mitpress.mit.edu/9780262571517/legalization-and-world-politics/",
+      },
+      {
+        type: "Book",
+        citation:
+          "Andrew T. Guzman, How International Law Works: A Rational Choice Theory (Oxford University Press, 2008).",
+        note:
+          "Rational-choice account of international law's influence through reputation, reciprocity, and retaliation.",
+        url: "https://academic.oup.com/book/36047/chapter/313121626",
+      },
+      {
+        type: "Book",
+        citation:
+          "Karen J. Alter, The New Terrain of International Law: Courts, Politics, Rights (Princeton University Press, 2014).",
+        note:
+          "Empirical and institutional study of international courts and their effects on law and politics.",
+        url: "https://press.princeton.edu/books/paperback/9780691154756/the-new-terrain-of-international-law",
+      },
+      {
+        type: "Book",
+        citation:
+          "Ian Hurd, How to Do Things with International Law (Princeton University Press, 2017).",
+        note:
+          "Analyzes law as a practice used by states and other actors to authorize, contest, and structure power.",
+        url: "https://press.princeton.edu/books/paperback/9780691196503/how-to-do-things-with-international-law",
+      },
+      {
+        type: "Article",
+        citation:
+          "Kenneth W. Abbott, 'Modern International Relations Theory: A Prospectus for International Lawyers' (1989) 14 Yale Journal of International Law 335.",
+        note:
+          "Early and influential invitation for international lawyers to use modern IR theory.",
+        url: "https://repository.law.asu.edu/Repository/Kenneth-Abbott-45983/Article/Modern-International-Relations-Theory-A-Prospectus-for-International-Lawyers-6413.html",
+      },
+      {
+        type: "Article",
+        citation:
+          "Anne-Marie Slaughter, Andrew S. Tulumello, and Stepan Wood, 'International Law and International Relations Theory: A New Generation of Interdisciplinary Scholarship' (1998) 92 American Journal of International Law 367.",
+        note:
+          "Classic article defining a new generation of IL/IR scholarship.",
+        url: "https://www.cambridge.org/core/journals/american-journal-of-international-law/article/international-law-and-international-relations-theory-a-new-generation-of-interdisciplinary-scholarship/5AB5DA29287BAB639282B6F068CACA36",
+      },
+      {
+        type: "Article",
+        citation:
+          "Kenneth W. Abbott, Robert O. Keohane, Andrew Moravcsik, Anne-Marie Slaughter, and Duncan Snidal, 'The Concept of Legalization' (2000) 54 International Organization 401.",
+        note:
+          "Defines legalization through obligation, precision, and delegation, a core bridge concept for IL/IR work.",
+        url: "https://www.cambridge.org/core/journals/international-organization/article/abs/concept-of-legalization/EF6AA703676B5053168AC43C27BF45A4",
+      },
+      {
+        type: "Article",
+        citation:
+          "Oona A. Hathaway, 'Do Human Rights Treaties Make a Difference?' (2002) 111 Yale Law Journal 1935.",
+        note:
+          "Important empirical legal study of treaty ratification and human-rights outcomes.",
+        url: "https://yalelawjournal.org/article/do-human-rights-treaties-make-a-difference",
+      },
+      {
+        type: "Book",
+        citation:
+          "Beth A. Simmons, Mobilizing for Human Rights: International Law in Domestic Politics (Cambridge University Press, 2009).",
+        note:
+          "Combines quantitative analysis and case studies to explain how international law operates through domestic politics.",
+        url: "https://www.cambridge.org/core/books/mobilizing-for-human-rights/4922EA5EB91DE8224C456C81D2599AB3",
+      },
+    ],
+  },
+];
 ---
 
 <SiteLayout title="Methodology | China, International Law, and International Order">
   <section class="page-intro">
     <p class="eyebrow">Methodology</p>
-    <h1>How the collection is organized.</h1>
+    <h1>Research methods for international law and world politics.</h1>
     <p>
-      The site is designed as a curated scholarly portal. Its source records privilege stable links, transparent metadata, and editorial notes that can be reviewed and revised over time.
+      This page outlines methods for studying international law, international relations, and the interdisciplinary field that connects them. It is designed as a research guide for reading the archive: legal materials should be analyzed as law, as institutional practice, and as evidence of political behavior.
     </p>
   </section>
-  <section class="prose-grid">
-    <article>
-      <h2>Source selection</h2>
-      <p>
-        The launch corpus covers PRC official documents, international legal materials, Chinese state practice, think tank reports, and literature. Records are chosen because they reveal China's approach to sovereignty, force, economic order, sanctions, BRI, or dispute settlement.
+
+  <section class="methodology-map" aria-label="Methodology overview">
+    {methodFamilies.map((family) => (
+      <article class="methodology-card">
+        <p class="eyebrow">{family.label}</p>
+        <h2>{family.title}</h2>
+        <p>{family.summary}</p>
+      </article>
+    ))}
+  </section>
+
+  <section class="methodology-sections" aria-label="Method introductions">
+    {methodFamilies.map((family) => (
+      <section class="methodology-section">
+        <div class="section-heading section-heading--split">
+          <div>
+            <p class="eyebrow">{family.label}</p>
+            <h2>{family.title}</h2>
+          </div>
+          <p class="section-heading__note">{family.summary}</p>
+        </div>
+        <div class="method-grid">
+          {family.methods.map((method) => (
+            <article class="method-card">
+              <h3>{method.name}</h3>
+              <p>{method.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </section>
+
+  <section class="literature-library" aria-label="Methodology literature">
+    <div class="section-heading">
+      <p class="eyebrow">Academic literature</p>
+      <h2>Books and journal articles on method</h2>
+      <p class="section-heading__note">
+        The selections below are starting points rather than an exhaustive bibliography. They are grouped by the research problem they help answer: how to reason legally, how to infer politically, and how to connect law and politics in one research design.
       </p>
-    </article>
-    <article>
-      <h2>Citation policy</h2>
-      <p>
-        Bibliographic display follows an OSCOLA-like legal style: institutional author, title, document symbol or publication context where available, date, and source link. Records keep source URLs visible and avoid hiding authority behind summaries.
-      </p>
-    </article>
-    <article>
-      <h2>PDF and copyright policy</h2>
-      <p>
-        The default policy is link-and-cite. The site does not mirror copyrighted scholarship or institution-controlled PDFs unless later review confirms permission, public-domain status, or a preservation need.
-      </p>
-    </article>
-    <article>
-      <h2>Annotation standards</h2>
-      <p>
-        Launch annotations are concise editorial scaffolding for review. Public release should retain only notes that have been checked by Professor Wang or an authorized editor.
-      </p>
-    </article>
+    </div>
+
+    <div class="literature-groups">
+      {literatureGroups.map((group) => (
+        <section class="literature-group">
+          <div class="literature-group__header">
+            <h3>{group.title}</h3>
+            <p>{group.description}</p>
+          </div>
+          <div class="literature-list">
+            {group.items.map((item) => (
+              <article class="literature-entry">
+                <div class="literature-entry__meta">
+                  <span>{item.type}</span>
+                </div>
+                <h4><a href={item.url} target="_blank" rel="noreferrer">{item.citation}</a></h4>
+                <p>{item.note}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
   </section>
 </SiteLayout>
